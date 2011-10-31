@@ -274,6 +274,21 @@ public class TiConvert
 		return toFloat(d.get(key));
 	}
 
+	public static float toLong(Object value) {
+		if (value instanceof Double) {
+			return ((Double) value).longValue();
+		} else if (value instanceof Integer) {
+			return ((Integer) value).longValue();
+		} else if (value instanceof String) {
+			return Long.parseLong((String) value);
+		} else {
+			throw new NumberFormatException("Unable to convert " + value.getClass().getName());
+		}
+	}
+	public static float toLong(KrollDict d, String key) {
+		return toLong(d.get(key));
+	}
+	
 	public static double toDouble(Object value) {
 		if (value instanceof Double) {
 			return ((Double) value);

@@ -184,6 +184,12 @@ public class AndroidModule extends KrollModule
 	@Kroll.constant public static final int FLAG_GRANT_WRITE_URI_PERMISSION = Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 	@Kroll.constant public static final int FLAG_RECEIVER_REGISTERED_ONLY = Intent.FLAG_RECEIVER_REGISTERED_ONLY;
 
+	@Kroll.constant public static final int INTENT_EXTRA_INT_TYPE = 1;
+	@Kroll.constant public static final int INTENT_EXTRA_LONG_TYPE = 2;
+	@Kroll.constant public static final int INTENT_EXTRA_DOUBLE_TYPE = 3;
+	@Kroll.constant public static final int INTENT_EXTRA_BOOLEAN_TYPE = 4;
+	@Kroll.constant public static final int INTENT_EXTRA_STRING_TYPE = 5;
+	
 	@Kroll.constant public static final int URI_INTENT_SCHEME = Intent.URI_INTENT_SCHEME;
 
 	@Kroll.constant public static final int PENDING_INTENT_FOR_ACTIVITY = IntentProxy.TYPE_ACTIVITY;

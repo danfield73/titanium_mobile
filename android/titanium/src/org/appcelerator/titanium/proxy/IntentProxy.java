@@ -186,25 +186,58 @@ public class IntentProxy extends KrollProxy
 
 
 	@Kroll.method
-	public void putExtra(String key, Object value)
+	public void putExtra(String key, Object value, @Kroll.argument(optional=true) int type)
 	{
-		if (value instanceof String) {
-			intent.putExtra(key, (String) value);
-		} else if (value instanceof Boolean) {
-			intent.putExtra(key, (Boolean) value);
-		} else if (value instanceof Double) {
-			intent.putExtra(key, (Double) value);
-		} else if (value instanceof Integer) {
-			intent.putExtra(key, (Integer) value);
-		} else if (value instanceof Long) {
-			intent.putExtra(key, (Long) value);
-		}
-		else {
-			Log.w(TAG, "Warning unimplemented put conversion for " + value.getClass().getCanonicalName() + " trying String");
-			intent.putExtra(key, TiConvert.toString(value));
+		switch (type) {
+		case 1:
+			if (!(value instanceof Integer)) {
+				intent.putExtra(key, TiConvert.toInt(value));
+			}
+			break;
+		case 2:
+			if (!(value instanceof Long)) {
+				intent.putExtra(key, TiConvert.toLong(value));
+			}
+			break;
+		case 3:
+			if (!(value instanceof Double)) {
+				intent.putExtra(key, TiConvert.toDouble(value));
+			}
+			break;
+		case 4:
+			if (!(value instanceof Boolean)) {
+				intent.putExtra(key, TiConvert.toBoolean(value));
+			}
+			break;
+		case 5:
+			if (!(value instanceof String)) {
+				intent.putExtra(key, TiConvert.toString(value));
+			}
+			break;
+		default:
+			// If we don't have a type, just use the original implementation.
+			if (value instanceof String) {
+				intent.putExtra(key, (String) value);
+			} else if (value instanceof Boolean) {
+				intent.putExtra(key, (Boolean) value);
+			} else if (value instanceof Double) {
+				intent.putExtra(key, (Double) value);
+			} else if (value instanceof Integer) {
+				intent.putExtra(key, (Integer) value);
+			} else if (value instanceof Long) {
+				intent.putExtra(key, (Long) value);
+			}
+			else {
+				Log.w(TAG, "Warning unimplemented put conversion for " + value.getClass().getCanonicalName() + " trying String");
+				intent.putExtra(key, TiConvert.toString(value));
+			}
 		}
 	}
-
+	
+	public void putExtra(String key, Object value)
+	{
+		putExtra(key, value, -1);
+	}
 
 	@Kroll.method
 	public void addFlags(int flags)
