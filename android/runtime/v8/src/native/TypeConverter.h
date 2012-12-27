@@ -83,6 +83,7 @@ public:
 	}
 
 	static jobject jsValueToJavaObject(v8::Local<v8::Value> jsValue, bool *isNew);
+	static jobject jsValueToJavaError(v8::Local<v8::Value> jsValue);
 	static v8::Handle<v8::Value> javaObjectToJsValue(jobject javaObject);
 
 	// Convert a JS object's indexed properties to a Java object array.
