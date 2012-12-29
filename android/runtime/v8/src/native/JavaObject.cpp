@@ -86,7 +86,8 @@ jobject JavaObject::getJavaObject()
 		// If we are "detached" we will re-attach whenever the Java
 		// proxy is requested.
 		if (isDetached()) {
-			attach(NULL);
+//			attach(NULL);
+			newGlobalRef();
 		}
 
 		return javaObject_;
@@ -164,7 +165,7 @@ void JavaObject::attach(jobject javaObject)
 	UPDATE_STATS(0, -1);
 
 	handle_.MakeWeak(this, DetachCallback);
-	handle_.MarkIndependent();
+//	handle_.MarkIndependent();
 
 	if (javaObject) {
 		javaObject_ = javaObject;
@@ -174,10 +175,13 @@ void JavaObject::attach(jobject javaObject)
 
 void JavaObject::detach()
 {
+	handle_.MakeWeak(this, DetachCallback);
+	if (isDetached()) return;
+
 	UPDATE_STATS(0, 1);
 
 	// Keep JavaScript object around until finalization.
-	handle_.ClearWeak();
+//	handle_.ClearWeak();
 
 	weakGlobalRef();
 }
