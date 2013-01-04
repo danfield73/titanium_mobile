@@ -16,18 +16,17 @@ persistentObjects = [];
 // This is currently used to keep "top level" objects
 // (ex: windows, tab groups) alive until their lifecycle ends.
 function PersistentHandle(object) {
-	this.cell = persistentObjects.length;
+	this.object = object;
 	persistentObjects.push(object);
 }
 
 PersistentHandle.prototype.dispose = function() {
-	if (this.cell == -1) {
-		// This handle has already been disposed.
-		return;
+	for (var i = 0; i < persistentObjects.length; i++) {
+		var handle = persistentObjects[i];
+		if (handle === this.object) {
+			persistentObjects.splice(i, 1);
+		}
 	}
-
-	persistentObjects.splice(this.cell, 1);
-	this.cell = -1;
 }
 
 exports.PersistentHandle = PersistentHandle;
