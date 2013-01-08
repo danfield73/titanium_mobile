@@ -357,8 +357,8 @@ Module.prototype._runScript = function (source, filename) {
 	contextGlobal.Ti = contextGlobal.Titanium = ti;
 
 	// We initialize the context with the standard Javascript APIs and globals first before running the script
-	var newContext = context.global = ti.global = Script.createContext(contextGlobal);
-	bootstrap.bootstrapGlobals(newContext, Titanium);
+	//var newContext = context.global = ti.global = Script.createContext(contextGlobal);
+	//bootstrap.bootstrapGlobals(newContext, Titanium);
 
 	if (kroll.runtime == "rhino") {
 		// The Rhino version of this API takes a custom global object but uses the same Rhino "Context".
@@ -370,8 +370,11 @@ Module.prototype._runScript = function (source, filename) {
 		// The V8 version of this API creates a brand new V8 top-level context that's associated
 		// with a new global object. Script.createContext copies all of our context-specific data
 		// into a new ContextWrapper that doubles as the global object for the context itself.
-		kroll.moduleContexts.push(newContext);
-		return Script.runInContext(source, newContext, filename, true);
+		source = Module.wrap(source);
+		//kroll.moduleContexts.push(newContext);
+		//return Script.runInContext(source, newContext, filename, true);
+		var f = Script.runInThisContext(source, filename, true);
+		return f(this.exports, require, this, filename, path.dirname(filename), ti, ti, global, kroll);
 	}
 }
 
